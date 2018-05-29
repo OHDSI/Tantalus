@@ -1,0 +1,23 @@
+Package: Tantalus
+Type: Package
+Title: A Tool For Comparing Different Versions of the Vocabulary
+Version: 0.0.1
+Date: 2017-07-18
+Author: Erica Voss [aut, cre],
+    Clair Blacketer [aut],
+    Martijn Schuemie [aut],
+    Anthony Molinaro [aut]
+Maintainer: Erica Voss <evoss3@its.jnj.com>, Anthony Molinaro <amolin19@its.jnj.com>
+Description: Todo
+License: Apache License 2.0
+VignetteBuilder: knitr
+Depends:
+    DatabaseConnector
+Imports:
+    SqlRender,
+    shiny,
+    DT,
+    stringdist,
+    jsonlite
+NeedsCompilation: no
+RoxygenNote: 6.0.1

@@ -1,0 +1,418 @@
+---
+title: <span style="font-size:24px;color:#20435b"><b>CDM Vocabulary Diff Report</b></span>
+output:
+  html_document:
+    toc: yes
+    toc_depth: 5
+    toc_float:
+      collapsed: false
+  html_notebook: default
+params:
+  JSONFile: ""
+---
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(DT)
+library(jsonlite)
+
+myObject = jsonlite::fromJSON(params$JSONFile)
+```
+
+
+
+**The following report compares vocabulary versions `r myObject$GetVocabVersion$PRIOR_VOCAB` 
+and `r myObject$GetVocabVersion$CURRENT_VOCAB`<br>
+Report generated on: `r format(Sys.time(), '%d %B, %Y')`**
+
+
+
+<br>
+<br>
+
+#### <b><font color="#20435b">BASIC SUMMARY</font></b>
+
+For each table in the vocabulary, display the old count, new count, and diff.<br>
+This report will enable you to determine if a table has grown/shrunk and by how much.
+<br>
+<br>
+
+                   
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+DT::datatable(as.data.frame(myObject$CountSummaryDiff), colnames = c("Table","Old Count","New Count","Diff"),
+                 filter = 'top', options = list(pageLength = 10, autoWidth = TRUE))
+
+```
+<br>
+
+#### <b><font color="#20435b">CONCEPT</font></b>
+
+The following reports show different ways in which the data in the CONCEPT table has changed from one vocab to the next.
+The reports in this section do not involve any tables other than CONCEPT.
+
+<br>
+
+##### <b>Domain Changes</b>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountConceptDomainChanges),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of concepts that experienced domain changes from one vocab to the next.<br>
+This report is related to the following bug: 
+<a href="https://github.com/OHDSI/Vocabulary-v5.0/issues/130">Changing Domain Bug</a>
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+##### <b>Name Changes</b>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountConceptNameChanges),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of concepts that experienced name changes from one vocab to the next.
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+##### <b>Class Changes</b>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountConceptClassChanges),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of concepts that experienced class changes from one vocab to the next.
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+##### <b>Invalid Changes</b>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountConceptInvalidChanges),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of concepts that have become invalid in the new vocab.
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+
+##### <b>Changes by vocabulary_id & domain_id</b>
+
+This reports displays the change in distribution of rows, stratified by vocabulary_id and domain_id.<br> 
+A diff > 0 represents the number of rows added in the new vocab (for a particular vocab/domain combination),<br> 
+while a diff < 0 represents the number of rows lost for that combination. 
+<br> 
+<br>
+            
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+DT::datatable(as.data.frame(myObject$CountConceptDiffsByDandV),filter = 'top', 
+              colnames=c("Vocabulary","Domain","Old Count","New Count","Diff"),
+                options = list(pageLength = 10, autoWidth = TRUE))
+
+```
+
+<br>
+<br>
+
+##### <b>Changes by concept_class_id</b>
+
+This reports displays the change in distribution of rows, stratified by concept_class_id.
+<br> 
+<br> 
+
+            
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+  DT::datatable(as.data.frame(myObject$CountConceptDiffsByClass),filter = 'top', 
+                colnames=c("Class","Old Count","New Count","Diff"),
+                    options = list(pageLength = 10, autoWidth = TRUE))
+
+```
+
+<br>
+<br>
+
+##### <b>Changes by domain_id</b>
+
+This reports displays the change in distribution of rows, stratified by domain_id.
+<br> 
+<br> 
+
+            
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+  DT::datatable(as.data.frame(myObject$CountConceptDiffsByDomain),filter = 'top', colnames=c("Domain","Old Count","New Count","Diff"),
+                    options = list(pageLength = 10, autoWidth = TRUE))
+
+```
+
+<br>
+<br>
+
+##### <b>Changes by invalid_reason</b>
+
+This reports displays the change in distribution of rows, stratified by invalid_reason.
+<br> 
+<br> 
+
+            
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+  DT::datatable(as.data.frame(myObject$CountConceptDiffsByInvRsn),filter = 'top', 
+                colnames=c("Invalid Reason","Old Count","New Count","Diff"),
+                    options = list(dom='',pageLength = 10, autoWidth = TRUE))
+
+```
+
+<br>
+<br>
+
+##### <b>Changes by standard_concept</b>
+
+This reports displays the change in distribution of rows, stratified by standard_concept.
+<br> 
+<br> 
+
+            
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+  DT::datatable(as.data.frame(myObject$CountConceptDiffsByStdConcept),filter = 'top', 
+                colnames=c("Standard Concept","Old Count","New Count","Diff"),
+            options = list(dom='', pageLength = 10, autoWidth = TRUE))
+
+```
+
+<br>
+<br>
+
+##### <b>Changes by vocabulary_id</b>
+
+This reports displays the change in distribution of rows, stratified by vocabulary_id.
+<br> 
+<br> 
+     
+            
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+  DT::datatable(as.data.frame(myObject$CountConceptDiffsByVocab),filter = 'top', 
+                colnames=c("Vocabulary","Old Count","New Count","Diff"),
+                    options = list(pageLength = 10, autoWidth = TRUE))
+
+```
+
+<br>
+<br>
+
+#### <b><font color="#20435b">CONCEPT_SYNONYM</font></b>
+The following reports show different ways in which the data in the CONCEPT_SYNONYM table has changed from one vocab to the next. 
+<br>
+<br>
+
+##### <b>Synonym Changes</b>
+
+<br>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountSynNameDiffs),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of concepts that experienced synonym changes from one vocab to the next.
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+
+
+#### <b><font color="#20435b">CONCEPT_ANCESTOR</font></b>
+
+The following reports show different ways in which the data in the CONCEPT_ANCESTOR table has changed from one vocab to the next.<br>
+
+<br>
+
+##### <b>Orphaned Drugs</b>
+This report displays the number of drugs that do not map to their ingredient.<br>
+This report is related to the following bug: 
+<a href="https://github.com/OHDSI/Vocabulary-v5.0/issues/136">Unmapped Ingredient Bug</a>
+
+<br>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+#  DT::datatable(as.data.frame(myObject$CountOrphanedDrugs),filter = 'top', 
+#                colnames=c("Old Count","New Count","Diff"),
+#                    options = list(dom='t', pageLength = 10, autoWidth = TRUE))
+
+
+knitr::kable(as.data.frame(myObject$CountOrphanedDrugs),col.names=c("Old Count","New Count","Diff"))
+
+```
+
+<br>
+
+
+
+##### <b>Missing Hierarchy</b>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountLostCA),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of ancestor/descendant row combinations that are no longer present in the current vocab.
+This report is related to the following bug: 
+<a href="https://github.com/OHDSI/Vocabulary-v5.0/issues/136">Unmapped Ingredient Bug</a>
+</td>
+</tr>
+</table>
+<br>
+
+<br> 
+
+#### <b><font color="#20435b">CONCEPT_RELATIONSHIP</font></b>
+
+The following reports show different ways in which the data in the CONCEPT_RELATIONSHIP table has changed from one vocab to the next.
+
+<br>
+<br>
+
+
+##### <b>Missing Relationships</b>
+
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountMissingCR),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of missing relationships.<br>
+For this report, a missing relationship is simply a concept_id_1/concept_id_2 combination 
+that is no longer present in the new vocab.
+</td>
+</tr>
+</table>
+<br>
+<br>
+
+##### <b>Valid/Invalid Relationships</b>
+
+This report displays the number of valid CR rows that map invalid standard concepts<br> 
+(i.e., cr.invalid_reason is null,but at least one of the concepts is invalid when joined back to concept).
+
+<br>
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+#  DT::datatable(as.data.frame(myObject$CountValidInvalidCR),filter = 'top', 
+#                colnames=c("Old Count","New Count","Diff"),
+#                    options = list(dom='t',pageLength = 10, autoWidth = TRUE))
+
+knitr::kable(as.data.frame(myObject$CountValidInvalidCR),col.names=c("Old Count","New Count","Diff"))
+
+```
+
+<br>
+<br>
+
+
+##### <b>Missing Descendants 1</b>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountMissingDescendants),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of descendent_concept_id rows that were in the previous vocab, but not the current.
+</td>
+</tr>
+</table>
+<br>
+<br>
+
+
+##### <b>Missing Descendants 2</b>
+
+Distribution of missing descendants stratified by domain, vocab, and concept class.<br>
+Missing descendants are descendent_concept_id rows that were in the previous vocab, but not the current.
+<br>
+<br>
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ DT::datatable(as.data.frame(myObject$CountMissingDescendantsByDomVocabClass),
+    colnames = c("Vocabulary","Vocab Count","Domain","Domain Count","Concept","Concept Count"),
+     filter = 'top', options = list(pageLength = 10, autoWidth = TRUE))
+
+```
+
+<br>
+<br>
+
+
+#### <b><font color="#20435b">CONCEPT_CLASS</font><b><br>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountCCNDiffs),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of changes to concept_class_name.
+</td>
+</tr>
+</table>
+<br>
+<br>
+
+
+
+#### <b><font color="#20435b">DOMAIN</font><b>
+
+<table>
+<tr>
+<td style="width:150px;text-align:right;font-size:18px;vertical-align:top;padding-left:10px;padding-right:10px;">
+`r format(as.data.frame(myObject$CountDomainNameDiffs),format="d",big.mark=",",scientific=FALSE)`</td>
+<td style="text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;font-size:12px;">
+This number represents the number of domain name changes in the current vocab.
+</td>
+</tr>
+</table>
+<br>
+<br>
+
+
+
+#### <b><font color="#20435b">RELATIONSHIP</font><b><br>
+This report displays the changes to the relationship table.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+
+knitr::kable(as.data.frame(myObject$CountRelDiffs),
+             row.names("Count"),col.names=c("Hierarchy","Ancestry","Rev.Rel","Rel.Concept"))
+```
+
+<br>
+<br>
+
