@@ -35,4 +35,4 @@ having 0 =  max(case when c2.concept_class_id = 'ingredient' then 1 else 0 end)
        ) tmp
 )
 select po.cnt "prior", co.cnt "current", co.cnt-po.cnt diff
-  from current_orphans co, prior_orphans po
+  from current_orphans co, prior_orphans po;

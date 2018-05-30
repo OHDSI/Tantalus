@@ -18,4 +18,4 @@ select standard_concept, count(*) cnt
    from concept1 c1
    join concept2 c2 on c1.standard_concept = c2.standard_concept
   where c1.cnt - c2.cnt != 0
-  order by 4 desc
+  order by 4 desc;

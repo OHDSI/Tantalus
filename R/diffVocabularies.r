@@ -62,18 +62,16 @@ diffVocabularies <- function(connectionDetails,
   # List to hold the query results
   ResultSets <- list()
 
-  pathToSql <- system.file("sql/sql_server/vocabDiff", package = "Tantalus")
-  sqlFiles <- list.files(pathToSql, pattern = "*.sql")
+  pathToSql <- system.file("sql/sql_server", package = "Tantalus")
+  sqlFiles <- list.files(pathToSql, pattern = "Count*.*sql")
+  sqlFiles[length(sqlFiles)+1] <- "GetVocabVersion.sql" 
 
   invisible(capture.output({
     conn <- DatabaseConnector::connect(connectionDetails)
   }))
 
 
-  # Execute queries: Loop through the VocabDiff directory to find the correct files.  The .sql files in
-  # the VocabDiff directory must also exist in the sql/sql_server directory to avoid errors in
-  # SqlRender.  We're putting .sql files in VocabDiff directory to distinguish them from the broader
-  # CDM compare queries which belong in sq/sql_server.
+  # Execute queries: 
 
   for (k in 1:length(sqlFiles)) {
 

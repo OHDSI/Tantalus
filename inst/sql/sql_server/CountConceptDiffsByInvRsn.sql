@@ -16,4 +16,4 @@ select invalid_reason, count(*) cnt
    from concept1 c1
    join concept2 c2 on c1.invalid_reason = c2.invalid_reason
   where c1.cnt - c2.cnt != 0
-  order by 4 desc
+  order by 4 desc;

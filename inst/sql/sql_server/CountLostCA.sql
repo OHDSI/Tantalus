@@ -21,4 +21,4 @@ select ca.ancestor_concept_id, ca.descendant_concept_id
    and c2.invalid_reason is null
    and c1.standard_concept = 'S'
    and c2.standard_concept = 'S'
-       ) tmp
+       ) tmp;

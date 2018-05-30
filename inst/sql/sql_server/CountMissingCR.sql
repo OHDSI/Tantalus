@@ -17,4 +17,4 @@ select concept_id_1, concept_id_2
   join @new_vocabulary_database_schema.concept c2 on cr.concept_id_2 = c2.concept_id
  where c1.standard_concept = 's' and c1.invalid_reason is null
    and c2.standard_concept = 's' and c2.invalid_reason is null
-       ) tmp
+       ) tmp;

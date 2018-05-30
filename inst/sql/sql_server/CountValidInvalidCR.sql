@@ -22,5 +22,5 @@ select count(*) cnt
    and (c1.invalid_reason is not null or c2.invalid_reason is not null) 
 )
 select pc.cnt "prior", cc.cnt "current", cc.cnt - pc.cnt diff
-  from prior_count pc, current_count cc
+  from prior_count pc, current_count cc;
  

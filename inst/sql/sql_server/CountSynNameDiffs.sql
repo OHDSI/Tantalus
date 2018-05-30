@@ -20,5 +20,5 @@ select cs.concept_id, count(cs.concept_synonym_name) cnt
 select count(*)
   from prior_CS pcs
   join current_CS ccs on pcs.concept_id = ccs.concept_id
- where pcs.cnt > ccs.cnt
+ where pcs.cnt > ccs.cnt;
  

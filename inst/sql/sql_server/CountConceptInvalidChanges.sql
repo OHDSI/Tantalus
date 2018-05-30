@@ -8,5 +8,5 @@ select count(*)
  where c1.standard_concept = 'S' 
    and c2.standard_concept = 'S'
    and c1.invalid_reason is null
-   and c2.invalid_reason is not null
+   and c2.invalid_reason is not null;
    

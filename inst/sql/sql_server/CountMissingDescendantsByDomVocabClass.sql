@@ -50,4 +50,4 @@ select max(vocabulary_id)      vocabulary_id,
        max(concept_class_id)   concept_class_id,
        max(concept_class_cnt)  concept_class_count
   from sparse
- group by rn
+ group by rn;

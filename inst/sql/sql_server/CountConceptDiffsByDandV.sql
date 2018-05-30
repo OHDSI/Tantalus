@@ -15,4 +15,4 @@ select vocabulary_id, domain_id, count(*) cnt
    from concept1 c1
    join concept2 c2 on c1.vocabulary_id = c2.vocabulary_id and c1.domain_id = c2.domain_id
   where c1.cnt - c2.cnt != 0
-  order by 5 desc
+  order by 5 desc;

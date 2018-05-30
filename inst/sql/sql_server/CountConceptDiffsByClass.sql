@@ -15,4 +15,4 @@ select concept_class_id, count(*) cnt
    from concept1 c1
    join concept2 c2 on c1.concept_class_id = c2.concept_class_id
   where c1.cnt - c2.cnt != 0
-  order by 4 desc
+  order by 4 desc;

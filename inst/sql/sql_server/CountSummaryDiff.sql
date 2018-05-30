@@ -104,7 +104,7 @@ select 'VOCABULARY',
        cv.cnt new_vocab_count,
        cv.cnt-pv.cnt vocab_diff      
   from prior_vocabulary pv,
-       current_vocabulary cv
+       current_vocabulary cv;
        
        
 
