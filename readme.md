@@ -50,27 +50,23 @@ sqlMapFiles <- list.files(pathToSql, pattern = "MapSource.*.sql")
 ```
 
 The next example shows how to create a report (GenerateDiffReport.html) of differences between two vocabularies. 
-The SQL files for for a diff can be controlled via these lines in diffVocabularies():
+The SQL files for for a diff can be controlled via these lines in createDiffSummary():
 
 ```r
-pathToSql <- system.file("sql/sql_server/vocabDiff", package = "Tantalus")
-sqlFiles <- list.files(pathToSql, pattern = "*.sql")
+pathToSql <- system.file("sql/sql_server", package = "Tantalus")
+sqlFiles <- list.files(pathToSql, pattern = "Count.*.sql")
 ```
 
-Using the same variables as above, we call diffVocabularies() to create a markdown (reports/GenerateDiffReport.Rmd) which is then passed to rmarkdown::render() 
-to create the html file.  While the SQL files for compareVocabularies() are located in inst/sql/sql_server, the SQL files for diffVocabularies()
-are located in inst/sql/sql_server/vocabDiff.  
+Using the same variables as above, we call createDiffSummary() which creates diffSummary.html via rmarkdown.  
+A JSON file containing the results of the numeric summaries is also created.
 
 ```r
 JSONPath <- "C:\\Temp"
 
-results <- diffVocabularies(connectionDetails,oldVocabularyDatabaseSchema,newVocabularyDatabaseSchema,JSONPath)
-
-# Generate diff report and provide the JSON file created from diffVocabularies()
-rmarkdown::render(input="reports\\GenerateDiffReport.Rmd",output_dir = JSONPath,params=list(JSONFile=results$JSONFile))
+createDiffSummary(connectionDetails,oldVocabularyDatabaseSchema,newVocabularyDatabaseSchema,JSONPath)
 ```
 
-The above calls will create GenerateDiffReport.html in output_dir.
+The above calls will create diffSummary.html in JSONPath, unless otherwise specified.
 
 
 Technology
@@ -104,8 +100,7 @@ library(Tantalus)
 # set appropriate variables 
 output <- compareVocabularies( ... ) # Compare CDMs
 launchComparisonExplorer(output)     # View the results of the comparison queries via Shiny
-results <- diffVocabularies( ... )   # Create a diff report
-rmarkdown::render( ... )             # Render the markdown into an html file for easy browsing
+createDiffSummary( ... )             # Create a high level summary of the differences between the two vocabs
 ```
 
 Getting Involved

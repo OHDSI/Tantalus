@@ -15,13 +15,12 @@
 # limitations under the License.
 
 #' @title
-#' Generate a diff between two specified vocabularies.
+#' Generate a (numeric) summary of differences between two specified vocabularies.
 #'
 #' @description
-#' This function finds high level differences between two specified vocabularies. The return value,
-#' ResultSets, is just a list of results from the specified queries (as well as the name of the JSON
-#' file created).  The list ResultSets is used to create a JSON object that is written out to a file
-#' and is later called by GenerateDiffReport.Rmd.
+#' This function finds high level differences between two specified vocabularies (essentially sql COUNT comparison queries).
+#' The results of the queries are written to a JSON file and converted to html via inst/reports/GenerateDiffReport.Rmd. 
+#' The summary report, diffSummary.html will be created in \code{JSONFileLoc} unless otherwise specified.
 #'
 #' @details  In an effort to assess the vocabulary proper (rather than the entire CDM), only the following
 #'           tables are considered:
@@ -45,6 +44,7 @@
 #'                                      database. On SQL Server, this should specify both the database
 #'                                      and the schema, so for example 'cdm_vocab.dbo'.
 #' @param JSONFileLoc                   Location of the JSON file created by the function.
+#' @param reportFileLoc                 Location of the html report, defaults to JSONFileLoc.
 #' @param oracleTempSchema              For Oracle only: the name of the database schema where you want
 #'                                      all temporary tables to be managed. Requires create/insert
 #'                                      permissions to this database.
@@ -52,18 +52,22 @@
 #' @export
 
 
-diffVocabularies <- function(connectionDetails,
+createDiffSummary <- function(connectionDetails,
                              oldVocabularyDatabaseSchema,
                              newVocabularyDatabaseSchema,
                              JSONFileLoc,
+                             reportFileLoc = JSONFileLoc,
                              oracleTempSchema = NULL) {
 
 
   # List to hold the query results
   ResultSets <- list()
 
+  # The "Count" queries are used for the numeric summaries
   pathToSql <- system.file("sql/sql_server", package = "Tantalus")
-  sqlFiles <- list.files(pathToSql, pattern = "Count*.*sql")
+  sqlFiles <- list.files(pathToSql, pattern = "Count.*.sql")
+
+  # This query makes the summary report more descriptive
   sqlFiles[length(sqlFiles)+1] <- "GetVocabVersion.sql" 
 
   invisible(capture.output({
@@ -103,10 +107,11 @@ diffVocabularies <- function(connectionDetails,
   ResultSetJSON <- jsonlite::toJSON(ResultSets, pretty = TRUE)
 
 
-  # Write out json file to be used later by markdown Use the vocab names in the name of the JSON file
+  # Write out json file to be used later by markdown Use the vocab names in the name of the json file
+  # The idea of using json as an extra step here is to have the results in a format that can be easily passed around.
 
   JSONFileName <- paste0(JSONFileLoc,
-                         "VocabDiffReport-",
+                         "diffSummary-",
                          ResultSets$GetVocabVersion$CURRENT_VOCAB,
                          "-",
                          ResultSets$GetVocabVersion$PRIOR_VOCAB,
@@ -116,7 +121,12 @@ diffVocabularies <- function(connectionDetails,
 
   write(ResultSetJSON, ResultSets$JSONFile)
 
-  return(ResultSets)
+  rmarkdown::render(
+      input       = "inst/reports/GenerateDiffReport.Rmd",
+      output_dir  = reportFileLoc,
+      output_file = "diffSummary.html", 
+      params      = list(JSONFile=ResultSets$JSONFile)
+  )
 
 }
 
