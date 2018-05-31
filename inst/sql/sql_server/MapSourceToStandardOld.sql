@@ -47,5 +47,5 @@ FROM (
 		LEFT OUTER JOIN @old_vocabulary_database_schema.CONCEPT c2
 			ON c2.CONCEPT_ID = stcm.target_concept_id
 	WHERE stcm.INVALID_REASON IS NULL
-) STSO
+) STSO;
 --@new_vocabulary_database_schema
