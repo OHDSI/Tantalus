@@ -9,7 +9,7 @@ and "diff" two vocabularies (that is, generate a report of numeric summaries rep
 
 Features
 ========
-- Provides a Shiny app to allow you to visually inspect data differences between CDMs.
+- Provides a Shiny app to allow you to visually inspect row level differences between CDMs.
 - Easily customizable; you can add additional SQL queries, the results of which will be displayed by the Shiny app.
 - Provides an optional report (also customizable) consisting of numeric summaries (differences) between two vocabularies within CDMs.
 
@@ -32,7 +32,7 @@ connectionDetails <- createConnectionDetails(dbms = "pdw",
                                              password = "some pw",
                                              port = 17001)
 
-result = compareVocabularies(connectionDetails = connectionDetails,
+result = compareVocabData(connectionDetails = connectionDetails,
                              cdmDatabaseSchema = cdmDatabaseSchema,
                              oldVocabularyDatabaseSchema = oldVocabularyDatabaseSchema,
                              newVocabularyDatabaseSchema = newVocabularyDatabaseSchema)
@@ -40,20 +40,18 @@ result = compareVocabularies(connectionDetails = connectionDetails,
 launchComparisonExplorer(result)
 ```
 
-Queries used by compareVocabularies() are located in inst/sql/sql_server.  Details of these queries can be found in the SQL files.
-By default, only "Test" and "Map" queries are executed.  This can be modified in the following lines in compareVocabularies():
+Queries used by compareVocabData() are located in inst/sql/sql_server.  Details of these queries can be found in the SQL files.
+By default, only "Test" and "Map" queries are executed.  This can be modified by adjusting sqlFiles and sqlMapFiles in compareVocabData():
 
 ```r
-pathToSql <- system.file("sql/sql_server", package = "Tantalus")
-sqlFiles <- list.files(pathToSql, pattern = "Test.*.sql")
+sqlFiles    <- list.files(pathToSql, pattern = "Test.*.sql")
 sqlMapFiles <- list.files(pathToSql, pattern = "MapSource.*.sql")
 ```
 
-The next example shows how to create a report (GenerateDiffReport.html) of differences between two vocabularies. 
-The SQL files for for a diff can be controlled via these lines in createDiffSummary():
+The next example shows how to create a summary (diffSummary.html) of the differences between two vocabularies. 
+The SQL files for the summary can by adjusting sqlFiles in createDiffSummary():
 
 ```r
-pathToSql <- system.file("sql/sql_server", package = "Tantalus")
 sqlFiles <- list.files(pathToSql, pattern = "Count.*.sql")
 ```
 
@@ -93,12 +91,12 @@ install.packages("devtools")
 devtools::install_github("ohdsi/Tantalus")
 ```
 
-Once installed, you can try follow the examples above to invoke the Shiny app and create a diff report:
+Once installed, you can try follow the examples above to invoke the Shiny app to inspect row level differences and create a summary diff report:
 
 ```r
 library(Tantalus)
 # set appropriate variables 
-output <- compareVocabularies( ... ) # Compare CDMs
+output <- compareVocabData( ... ) # Compare CDMs
 launchComparisonExplorer(output)     # View the results of the comparison queries via Shiny
 createDiffSummary( ... )             # Create a high level summary of the differences between the two vocabs
 ```

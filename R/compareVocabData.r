@@ -16,6 +16,9 @@
 
 #' Compare two vocabularies
 #'
+#' @description
+#' This function enables you to compare two vocabularies at the row level.  
+#'
 #' @param connectionDetails             An R object of type\cr\code{connectionDetails} created using
 #'                                      the function \code{createConnectionDetails} in the
 #'                                      \code{DatabaseConnector} package.
@@ -38,7 +41,7 @@
 #'                                      permissions to this database.
 #'
 #' @export
-compareVocabularies <- function(connectionDetails,
+compareVocabData <- function(connectionDetails,
                                 cdmDatabaseSchema,
                                 oldVocabularyDatabaseSchema = cdmDatabaseSchema,
                                 newVocabularyDatabaseSchema,
