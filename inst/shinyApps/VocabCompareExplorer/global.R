@@ -1,7 +1,7 @@
 source("functions.R")
 
 # read data
-result <- readRDS(file.path("data","result.rds"))
+# result <- readRDS(file.path("data","result.rds"))
 
 # set the correct data types and colnames (can be removed once done in the R package)
 results <- data.frame(testId = result$testId,

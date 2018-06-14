@@ -1,4 +1,5 @@
-# utils
+# utils to be moved to R extraction side later.
+
 checkNumericValues = function(x, output) {
 	old <- getNumericFromString(x[8])
 	new <- getNumericFromString(x[9])

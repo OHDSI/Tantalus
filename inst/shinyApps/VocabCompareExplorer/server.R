@@ -40,7 +40,7 @@ shinyServer(function(input, output, session) {
 	selection = 'single',
 	options = list(
 		autoWidth = FALSE,
-		lengthMenu = c(10, 25, 50, 75, 100),
+		lengthMenu = c(5,10, 25, 50, 75, 100),
 		searchHighlight = TRUE,
 		dom = 'Blfrtip',
 		buttons = I('colvis'),
