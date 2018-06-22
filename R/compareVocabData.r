@@ -17,7 +17,7 @@
 #' Compare two vocabularies
 #'
 #' @description
-#' This function enables you to compare two vocabularies at the row level.  
+#' This function enables you to compare two vocabularies at the row level.
 #'
 #' @param connectionDetails             An R object of type\cr\code{connectionDetails} created using
 #'                                      the function \code{createConnectionDetails} in the
@@ -145,5 +145,19 @@ compareVocabData <- function(connectionDetails,
                                  oracleTempSchema = oracleTempSchema)$sql
   DatabaseConnector::executeSql(conn, sql, progressBar = FALSE, reportOverallTime = FALSE)
   DatabaseConnector::disconnect(conn)
+
+  # Run additional checks in R
+  result <- runRChecks(result)
+
   return(result)
+}
+
+#' @export
+runRChecks <- function(result) {
+	# Check to find differences between the two vocabularies in numbers in the string
+	# This is useful to find for example drug strength or unit changes
+
+	result$numCheck = apply(result,1,checkNumericDifference)
+
+	return(result)
 }
