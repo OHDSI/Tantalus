@@ -5,8 +5,8 @@ account: mi-erasmusmc
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 358739
-bundleId: 1422409
+bundleId: 1445990
 url: https://mi-erasmusmc.shinyapps.io/Tantalus/
-when: 1528710024.58973
+when: 1529860277.24117
 asMultiple: FALSE
 asStatic: FALSE

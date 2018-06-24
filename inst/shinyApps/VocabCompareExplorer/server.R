@@ -44,13 +44,15 @@ shinyServer(function(input, output, session) {
 		searchHighlight = TRUE,
 		dom = 'Blfrtip',
 		buttons =
-			list(I('colvis'), "copy", list(
-				extend = "collection"
-				, buttons = c("csv", "excel")
-				, text = "Download"
-			) ),
+				list(I('colvis'), "copy", list(
+					extend = "collection"
+					, buttons = c("csv", "excel")
+					, text = "Download"
+		)),
 
-		columnDefs = list(list(
+		columnDefs = list(
+			list(targets = c(0,2), visible = FALSE),
+			list(
 			targets = 3,
 			render = JS(
 				"function(data, type, row, meta) {",
