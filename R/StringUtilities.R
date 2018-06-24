@@ -53,6 +53,7 @@ checkNumericDifference = function(x, output) {
 #' @export
 #'
 getNumericFromString = function(str) {
-	y <- gregexpr("[0-9.]+", str)
-	x2 <- sort(unlist(regmatches(str, y)))
+	y <- gregexpr("[0-9]*[\\.]{0,1}[0-9]+", str)
+	l <- regmatches(str, y)
+	x2 <- sort(unlist(l))
 }

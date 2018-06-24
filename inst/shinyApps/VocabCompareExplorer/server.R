@@ -40,10 +40,15 @@ shinyServer(function(input, output, session) {
 	selection = 'single',
 	options = list(
 		autoWidth = FALSE,
-		lengthMenu = c(5,10, 25, 50, 75, 100),
+		lengthMenu = list( c(5,10, 25, 50, 75, 100, -1), c(5,10,25,50,75,100,"All")),
 		searchHighlight = TRUE,
 		dom = 'Blfrtip',
-		buttons = I('colvis'),
+		buttons =
+				list(I('colvis'), "copy", list(
+					extend = "collection"
+					, buttons = c("csv", "excel")
+					, text = "Download"
+		)),
 
 		columnDefs = list(
 			list(targets = c(0,2), visible = FALSE),
