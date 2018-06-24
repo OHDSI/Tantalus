@@ -15,7 +15,7 @@ Features
 
 Examples
 ========
-The first example shows how to compare the data within two CDMs and launch the Shiny app to visualize the results of the "comparison" queries.
+The first example shows how to compare the data within two CDMs and launch the Shiny app to visualize the results of the "comparison" queries. By defining findPrevalences = TRUE you can filter on those codes that appear in the database.
 For this example the data reside in a Microsoft PDW dbms on a server called X, using default port 17001.  
 The databases containing the CDMs are called "db1" and "db2".  The database schema is "dbo".
 
@@ -35,7 +35,8 @@ connectionDetails <- createConnectionDetails(dbms = "pdw",
 result = compareVocabData(connectionDetails = connectionDetails,
                              cdmDatabaseSchema = cdmDatabaseSchema,
                              oldVocabularyDatabaseSchema = oldVocabularyDatabaseSchema,
-                             newVocabularyDatabaseSchema = newVocabularyDatabaseSchema)
+                             newVocabularyDatabaseSchema = newVocabularyDatabaseSchema,
+                             findPrevalences = TRUE)
 
 launchComparisonExplorer(result)
 ```
