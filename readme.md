@@ -6,6 +6,12 @@ Introduction
 This is an R package to help you expose differences between two CDMs.  Tantalus allows you to both "compare" two CDMs (that is, visually inspect data differences)
 and "diff" two vocabularies (that is, generate a report of numeric summaries representing differences between them). 
 
+Demo
+====
+A demo (under development) on the Synpuf data can be found here:
+
+https://mi-erasmusmc.shinyapps.io/Tantalus/
+
 
 Features
 ========
