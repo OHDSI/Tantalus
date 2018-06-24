@@ -6,12 +6,19 @@ Introduction
 This is an R package to help you expose differences between two CDMs.  Tantalus allows you to both "compare" two CDMs (that is, visually inspect data differences)
 and "diff" two vocabularies (that is, generate a report of numeric summaries representing differences between them). 
 
+Demo
+====
+A demo (under development) on the Synpuf data can be found here:
+
+https://mi-erasmusmc.shinyapps.io/Tantalus/
+
 
 Features
 ========
 - Provides a Shiny app to allow you to visually inspect row level differences between CDMs.
 - Easily customizable; you can add additional SQL queries, the results of which will be displayed by the Shiny app.
 - Provides an optional report (also customizable) consisting of numeric summaries (differences) between two vocabularies within CDMs.
+- Provides functionality to download the results as csv or excel file.
 
 Examples
 ========
