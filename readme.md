@@ -12,6 +12,7 @@ Features
 - Provides a Shiny app to allow you to visually inspect row level differences between CDMs.
 - Easily customizable; you can add additional SQL queries, the results of which will be displayed by the Shiny app.
 - Provides an optional report (also customizable) consisting of numeric summaries (differences) between two vocabularies within CDMs.
+- Provides functionality to download the results as csv or excel file.
 
 Examples
 ========
