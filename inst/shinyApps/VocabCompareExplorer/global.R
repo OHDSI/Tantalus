@@ -1,5 +1,5 @@
 
-# read data
+# uncomment if running standalone
 results <- readRDS(file.path("data","results.rds"))
 
 # set the correct data types and colnames (will be removed once done in the R package)

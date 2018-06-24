@@ -39,8 +39,10 @@ The following comparison queries are currently available:
 
 In **tabular** view you can select the results for the following aggregation levels: description, domain, or vocabulary.
 
-After selecting an aggregation key, you can clicking on the rows in the table below to filter the results table. 
+After selecting an aggregation key, you can filter the results table by clicking on the rows in the table that is generated. 
 Additional filtering and search options are available per column on the top of the table and overall on top of the page.
+
+There is an option to download the results (those that are in view as defined by the "entries") as csv or excel file.
 
 **Graphical view** is under consideration.
 
