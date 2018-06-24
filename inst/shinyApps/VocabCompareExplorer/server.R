@@ -45,7 +45,9 @@ shinyServer(function(input, output, session) {
 		dom = 'Blfrtip',
 		buttons = I('colvis'),
 
-		columnDefs = list(list(
+		columnDefs = list(
+			list(targets = c(0,2), visible = FALSE),
+			list(
 			targets = 3,
 			render = JS(
 				"function(data, type, row, meta) {",
