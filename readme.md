@@ -3,8 +3,7 @@ Tantalus
 
 Introduction
 ============
-This is an R package to help you expose differences between two CDMs.  Tantalus allows you to both "compare" two CDMs (that is, visually inspect data differences)
-and "diff" two vocabularies (that is, generate a report of numeric summaries representing differences between them). 
+This is an R package to help you expose differences between two vocabulary versions. 
 
 Demo
 ====
@@ -15,14 +14,14 @@ https://mi-erasmusmc.shinyapps.io/Tantalus/
 
 Features
 ========
-- Provides a Shiny app to allow you to visually inspect row level differences between CDMs.
+- Provides a Shiny app to allow you to visually inspect row level differences between vocabularies.
 - Easily customizable; you can add additional SQL queries, the results of which will be displayed by the Shiny app.
 - Provides an optional report (also customizable) consisting of numeric summaries (differences) between two vocabularies within CDMs.
 - Provides functionality to download the results as csv or excel file.
 
 Examples
 ========
-The first example shows how to compare the data within two CDMs and launch the Shiny app to visualize the results of the "comparison" queries. By defining findPrevalences = TRUE you can filter on those codes that appear in the database.
+The first example shows how to compare two vocabulary versions and launch the Shiny app to visualize the results of the "comparison" queries. By defining findPrevalences = TRUE you can filter on those codes that appear in the database.
 For this example the data reside in a Microsoft PDW dbms on a server called X, using default port 17001.  
 The databases containing the CDMs are called "db1" and "db2".  The database schema is "dbo".
 
@@ -104,7 +103,7 @@ Once installed, you can try follow the examples above to invoke the Shiny app to
 ```r
 library(Tantalus)
 # set appropriate variables 
-output <- compareVocabData( ... ) # Compare CDMs
+output <- compareVocabData( ... )    # Compare vocabularies
 launchComparisonExplorer(output)     # View the results of the comparison queries via Shiny
 createDiffSummary( ... )             # Create a high level summary of the differences between the two vocabs
 ```
@@ -125,4 +124,4 @@ Tantalus is being developed in R Studio.
 
 ### Development status
 
-Stable. The code is actively being used in several projects.
+Beta. Still under development
