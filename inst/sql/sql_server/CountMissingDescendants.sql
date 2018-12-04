@@ -9,6 +9,5 @@ select descendant_concept_id from @new_vocabulary_database_schema.concept_ancest
 )
 select count(*) cnt
   from missingDescendants md
-  join @old_vocabulary_database_schema.concept c on c.concept_id = md.descendant_concept_id
- where c.standard_concept = 'S' and c.invalid_reason is null;
+  join @old_vocabulary_database_schema.concept c on c.concept_id = md.descendant_concept_id;
  
