@@ -5,48 +5,24 @@ library(shinydashboard)
 library(markdown)
 
 ui <- dashboardPage(
-	dashboardHeader(title = "Tantalus",  titleWidth = 120),
+	dashboardHeader(title = "Tantalus",  titleWidth = 200),
 	dashboardSidebar(
-		width = 120,
+		width = 200,
 		sidebarMenu(
 			menuItem("Home", tabName = "home", icon = icon("home")),
-			menuItem("Tabular", tabName = "tabular", icon = icon("table")),
-			menuItem(
-				"Graphical",
-				tabName = "graphical",
-				icon = icon("bar-chart-o")
-			),
-			menuItem("Feedback", icon = icon("comment"), href = "https://github.com/mi-erasmusmc/Tantalus/issues")
-		),
-		tags$footer(
-			align = "right",
-			style = "
-			position:absolute;
-			bottom:0;
-			width:100%;
-			height:175px;
-			color: black;
-			padding: 10px;
-			text-align:center;
-			background-color: #eee;
-			z-index: 1000;",
-			HTML(
-				"<a href=\"https://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0</a>
-				<div style=\"margin-bottom:10px;\">open source software</div>
-				<div>provided by</div>
-				<div><a href=\"http://www.ohdsi.org\"><img src=\"images/ohdsi_color.png\" height=42 width = 100></a></div>
-				<div><a href=\"http://www.ohdsi.org\">join the journey</a> </div>
-				<div>"
-			)
-			)
-		),
+			menuItem("Summary", tabName = "summary", icon = icon("receipt")),
+			menuItem("Details", tabName = "details", icon = icon("table")),
+			#menuItem("Graphical",tabName = "graphical",icon = icon("bar-chart-o")),
+			menuItem("Feedback", icon = icon("comment"), href = "https://github.com/OHDSI/Tantalus/issues")
+		)
+	),
 
 	dashboardBody(
 		tabItems(
 			tabItem(tabName = "home",
 							includeMarkdown(file.path("man", "readme.md"))),
 
-			tabItem(tabName = "tabular",
+			tabItem(tabName = "details",
 							fluidRow(
 								column(
 									width = 2,
@@ -57,8 +33,6 @@ ui <- dashboardPage(
 									),
 									checkboxInput("filterZeroPrevalence", "Remove issues with zero prevalence"),
 									dataTableOutput("perAggregateKey", width = 150)
-									#,
-									#verbatimTextOutput('label')
 								),
 								column(
 									width = 10,
@@ -66,8 +40,28 @@ ui <- dashboardPage(
 									DTOutput("allResultsTable")
 								)
 							)),
-
-		tabItem(tabName = "graphical", h3("Coming soon!"))
-
+			tabItem(tabName = "summary",
+							fluidRow(
+								column(
+									width = 12,
+									uiOutput("domainChangeBox")
+								)
+							),
+							fluidRow(
+								column(
+									width = 12,
+									titlePanel("General Summary"),
+									wellPanel("This is the description of the general summary table."),
+									dataTableOutput("countSummaryDiff"),
+									titlePanel("Domain & Vocabulary Changes"),
+									dataTableOutput("countConceptDiffsByDandV"),
+									titlePanel("Concept Class Changes"),
+									dataTableOutput("countConceptDiffsByClass"),
+									titlePanel("Domain Changes"),
+									wellPanel("The change in the number of rows per domain between the old and new vocabulary version."),
+									dataTableOutput("countConceptDiffsByDomain")
+								)
+							))
+		#tabItem(tabName = "graphical", plotOutput("testPlot"))
 	))
 )

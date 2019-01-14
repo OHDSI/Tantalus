@@ -1,6 +1,5 @@
-
-# uncomment if running standalone
-# results <- readRDS(file.path("data","results.rds"))
+results <- readRDS(file.path(".", "data","results.rds"))
+diffResults <- jsonlite::read_json(file.path(".", "data", "diffResults.json"),simplifyVector=TRUE)
 
 # set the correct data types and colnames (will be removed once done in the R package)
 results <- data.frame(testId = results$testId,

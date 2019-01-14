@@ -5,8 +5,7 @@
 \title{Generate a (numeric) summary of differences between two specified vocabularies.}
 \usage{
 createDiffSummary(connectionDetails, oldVocabularyDatabaseSchema,
-  newVocabularyDatabaseSchema, JSONFileLoc, reportFileLoc = JSONFileLoc,
-  oracleTempSchema = NULL)
+  newVocabularyDatabaseSchema, oracleTempSchema = NULL)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using
@@ -23,27 +22,22 @@ vocabulary instance.  Requires read permissions to this
 database. On SQL Server, this should specify both the database
 and the schema, so for example 'cdm_vocab.dbo'.}
 
-\item{JSONFileLoc}{Location of the JSON file created by the function.}
-
-\item{reportFileLoc}{Location of the html report, defaults to JSONFileLoc.}
-
 \item{oracleTempSchema}{For Oracle only: the name of the database schema where you want
 all temporary tables to be managed. Requires create/insert
 permissions to this database.}
 }
 \description{
 This function finds high level differences between two specified vocabularies (essentially sql COUNT comparison queries).
-The results of the queries are written to a JSON file and converted to html via inst/reports/GenerateDiffReport.Rmd. 
-The summary report, diffSummary.html will be created in \code{JSONFileLoc} unless otherwise specified.
+The results of the queries are written to a JSON file
 }
 \details{
 In an effort to assess the vocabulary proper (rather than the entire CDM), only the following
           tables are considered:
-           1. CONCEPT 
-           2. CONCEPT_SYNONYM 
-           3. CONCEPT_ANCESTOR 
-           4. CONCEPT_RELATIONSHIP 
-           5. CONCEPT_CLASS 
-           6. DOMAIN 
+           1. CONCEPT
+           2. CONCEPT_SYNONYM
+           3. CONCEPT_ANCESTOR
+           4. CONCEPT_RELATIONSHIP
+           5. CONCEPT_CLASS
+           6. DOMAIN
            7. RELATIONSHIP
 }

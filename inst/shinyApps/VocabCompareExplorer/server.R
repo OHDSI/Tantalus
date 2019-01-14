@@ -17,6 +17,32 @@ shinyServer(function(input, output, session) {
 		aggregate(formula, data = filteredData(), length)
 	})
 
+	formattedCountConceptDomainChanges <- diffResults$CountConceptDomainChanges$CNT
+	formattedCountConceptDomainChanges <- format(formattedCountConceptDomainChanges, big.mark = ",")
+
+	output$domainChangeBox <- renderUI({
+		infoBox(
+			"Domain Changes", formattedCountConceptDomainChanges, icon = icon("receipt"),
+			color = "yellow", width = 6
+		)
+	})
+
+	output$countSummaryDiff <- renderDataTable(
+		diffResults$CountSummaryDiff
+	)
+
+	output$countConceptDiffsByDandV <- renderDataTable(
+		diffResults$CountConceptDiffsByDandV
+	)
+
+	output$countConceptDiffsByClass <- renderDataTable(
+		diffResults$CountConceptDiffsByClass
+	)
+
+	output$countConceptDiffsByDomain <- renderDataTable(
+		diffResults$CountConceptDiffsByDomain
+	)
+
 	output$allResultsTable <- renderDT({
 		table <- filteredData()
 		selected <- input$perAggregateKey_rows_selected
@@ -78,5 +104,39 @@ shinyServer(function(input, output, session) {
 			print(s)
 			print(keyToRows()[s, 1])
 		}
+	})
+
+	output$testPlot <- renderPlot({
+		plot(1:10)
+	})
+
+	output$testPlotly <- renderPlotly({
+		plot_ly(
+			type = "sankey",
+			orientation = "h",
+
+			node = list(
+				label = c("Condition V1", "Drug V1", "Observation V1", "Measurement V1", "Condition V2", "Drug V2", "Observation V2", "Measurement V2"),
+				color = c("blue", "blue", "blue", "blue", "red", "red", "red", "red"),
+				pad = 15,
+				thickness = 20,
+				line = list(
+					color = "black",
+					width = 0.5
+				)
+			),
+
+			link = list(
+				source = c(0,0,0,0,1,1),
+				target = c(5,5,5,5,4,4),
+				value =  c(8,4,2,8,4,2)
+			)
+		) %>%
+			layout(
+				title = "Basic Sankey Diagram",
+				font = list(
+					size = 10
+				)
+			)
 	})
 })
