@@ -4,6 +4,22 @@
 -- A "severity" flag is computed based on what changed.
 --
 
+select concept_id,
+       sum(name_change)                name_change,
+       sum(domain_change)              domain_change,
+       sum(vocab_change)               vocab_change,
+       sum(class_change)               class_change,
+       sum(start_date_change)          start_date_change,
+       sum(end_date_change)            end_date_change,
+       sum(invalid_reason_change)      invalid_reason_change,
+       sum(standard_concept_change)    standard_concept_change,
+       sign(sum(relationship_change))  relationship_change,
+       sign(sum(descendant_change))    descendant_change,
+       sum(is_missing)                 is_missing,
+       sign(sum(severity))             severity
+
+  from (
+
 -- Find CONCEPT table changes:
 -- These are concept_ids that exist in both old and new vocabularies, but have changed in some way.
 
@@ -17,7 +33,9 @@ select c1.concept_id,
        case when c1.valid_end_date                != c2.valid_end_date                then 1 else 0 end end_date_change,
        case when isnull(c1.invalid_reason,'NA')   != isnull(c2.invalid_reason,'NA')   then 1 else 0 end invalid_reason_change,
        case when isnull(c1.standard_concept,'NA') != isnull(c2.standard_concept,'NA') then 1 else 0 end standard_concept_change,
-       0 relationship_change, 0 descendant_change, 0 is_missing,
+       0                                                                                                relationship_change, 
+       0                                                                                                descendant_change, 
+       0                                                                                                is_missing,
        case when c1.domain_id                     != c2.domain_id
               or c1.vocabulary_id                 != c2.vocabulary_id
               or c1.concept_code                  != c2.concept_code
@@ -40,38 +58,40 @@ select c1.concept_id,
     or isnull(c1.invalid_reason,'NA')   != isnull(c2.invalid_reason,'NA')
     or isnull(c1.standard_concept,'NA') != isnull(c2.standard_concept,'NA') 
 
-union 
+union all
 
 -- Find CONCEPT_RELATIONSHIP changes and deletions:
 -- These concept_id_1s are from pairs of concept_ids whose relationship have been changed or removed. 
 
-select concept_id_1 concept_id, 0,0,0,0,0,0,0,0,0,1,0,0
+select concept_id_1 concept_id, 0,0,0,0,0,0,0,0,0,1,0,0,1
   from (
 select * from @old_vocabulary_database_schema.concept_relationship where relationship_id in ('Mapped from','Maps to')
 except
 select * from @new_vocabulary_database_schema.concept_relationship where relationship_id in ('Mapped from','Maps to')
        ) tmp
 
-union
+union all
 
 -- Find CONCEPT_ANCESTOR changes and deletions:
 -- These ancestor_concept_ids are from pairs of concept_ids whose ancestor-descendant relationships have been changed or removed. 
 
-select ancestor_concept_id concept_id, 0,0,0,0,0,0,0,0,0,0,1,0
+select ancestor_concept_id concept_id, 0,0,0,0,0,0,0,0,0,0,1,0,1
   from (
 select ancestor_concept_id, descendant_concept_id from @old_vocabulary_database_schema.concept_ancestor
 except
 select ancestor_concept_id, descendant_concept_id from @new_vocabulary_database_schema.concept_ancestor
        ) tmp
 
-union 
+union all
 
 -- Find CONCEPT table deletions:
 -- These are concept_ids that exist in the old, but not the new vocabulary.
 
-select concept_id, 0,0,0,0,0,0,0,0,0,0,0,1 
+select concept_id, 0,0,0,0,0,0,0,0,0,0,0,1,1 
   from (
 select concept_id from @old_vocabulary_database_schema.concept
 except
 select concept_id from @new_vocabulary_database_schema.concept 
-       ) tmp;
+       ) tmp
+       ) tmp
+ group by concept_id;
