@@ -6,8 +6,9 @@ Date: 2017-07-18
 Author: Erica Voss [aut, cre],
     Clair Blacketer [aut],
     Martijn Schuemie [aut],
+	Frank DeFalco [aut],
     Anthony Molinaro [aut]
-Maintainer: Erica Voss <evoss3@its.jnj.com>, Anthony Molinaro <amolin19@its.jnj.com>
+Maintainer: Anthony Molinaro <amolin19@its.jnj.com>, Frank DeFalco <fdefalco@its.jnj.com>
 Description: Todo
 License: Apache License 2.0
 VignetteBuilder: knitr
@@ -18,6 +19,9 @@ Imports:
     shiny,
     DT,
     stringdist,
-    jsonlite
+    jsonlite,
+	plotly,
+	keyring,
+	shinydashboard
 NeedsCompilation: no
 RoxygenNote: 6.1.1
