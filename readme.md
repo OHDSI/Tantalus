@@ -38,9 +38,9 @@ Sys.setenv(DBMS="sql server")
 Sys.setenv(AWS_VOCAB_DATABASE_SERVER="db server")
 Sys.setenv(AWS_VOCAB_USERNAME="some user")
 Sys.setenv(PORT=1433)
-```
 
-With the above variables set, you can run the script extras/execution.R.
+source("extras/execution.R") 
+```
 
 Queries used by Tantalus are located in inst/sql/sql_server.  Details of these queries can be found in the SQL files.
 
@@ -81,9 +81,7 @@ Sys.setenv(DBMS="sql server")
 Sys.setenv(AWS_VOCAB_DATABASE_SERVER="db server")
 Sys.setenv(AWS_VOCAB_USERNAME="some user")
 Sys.setenv(PORT=1433)
-
-# Then run extras/execution.R
-
+source("extras/execution.R") 
 ```
 
 Getting Involved

@@ -29,7 +29,7 @@ Tantalus::saveComparisonResults(results = result)
 diffSummary <- Tantalus::createDiffSummary(connectionDetails,oldVocabularyDatabaseSchema,newVocabularyDatabaseSchema)
 Tantalus::saveDiffResults(diffSummary)
 
-#launchComparisonExplorer(result)
+launchComparisonExplorer(result)
 
 # rmarkdown::render(
 # 	input       = "inst/reports/GenerateDiffReport.Rmd",
