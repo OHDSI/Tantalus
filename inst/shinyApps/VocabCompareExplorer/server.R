@@ -2,6 +2,7 @@ library(shiny)
 library(DT)
 library(htmlwidgets)
 library(shinydashboard)
+library(plotly)
 
 shinyServer(function(input, output, session) {
 	filteredData <- reactive({
